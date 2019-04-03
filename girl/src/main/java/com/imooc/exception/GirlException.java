@@ -3,10 +3,10 @@ package com.imooc.exception;
 import com.imooc.enums.ResultEnum;
 
 /**
- * Created by 廖师兄
- * 2017-01-21 14:05
+ * Created by 韦师兄
+ * 2019-04-03 22:47
  */
-public class GirlException extends RuntimeException{
+public class GirlException extends RuntimeException {
 
     private Integer code;
 

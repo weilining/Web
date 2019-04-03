@@ -1,5 +1,6 @@
 package com.imooc.controller;
 
+import com.imooc.aspetct.HttpAspect;
 import com.imooc.domain.Girl;
 import com.imooc.domain.Result;
 import com.imooc.repository.GirlRepository;
@@ -8,16 +9,13 @@ import com.imooc.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * Created by 廖师兄
- * 2016-11-03 23:15
- */
 @RestController
 public class GirlController {
 
@@ -31,28 +29,40 @@ public class GirlController {
 
     /**
      * 查询所有女生列表
+     *
      * @return
      */
     @GetMapping(value = "/girls")
     public List<Girl> girlList() {
-        logger.info("girlList");
 
+        System.out.println("girlList");
         return girlRepository.findAll();
     }
 
     /**
      * 添加一个女生
+     *
      * @return
      */
     @PostMapping(value = "/girls")
-    public Result<Girl> girlAdd(@Valid Girl girl, BindingResult bindingResult) {
+    public Result<Girl> girlAdd(@Valid Girl girl,
+                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return ResultUtil.error(1, bindingResult.getFieldError().getDefaultMessage());
+            //返回表单认证的提示信息
+//            Result result = new Result();
+//            result.setCode(1);
+//            result.setMsg(bindingResult.getFieldError().getDefaultMessage());
+//            return result;
+            return null;
+//            return ResultUtil.error(1,bindingResult.getFieldError().getDefaultMessage());
         }
-
         girl.setCupSize(girl.getCupSize());
         girl.setAge(girl.getAge());
-
+//        Result result = new Result();
+//        result.setCode(0);
+//        result.setMsg("成功");
+//        result.setData(girlRepository.save(girl));
+//        return result;
         return ResultUtil.success(girlRepository.save(girl));
     }
 
@@ -92,8 +102,8 @@ public class GirlController {
         girlService.insertTwo();
     }
 
-    @GetMapping(value = "girls/getAge/{id}")
-    public void getAge(@PathVariable("id") Integer id) throws Exception{
+    @GetMapping(value = "/girls/getAge/{id}")
+    public void getAge(@PathVariable("id") Integer id)throws Exception{
         girlService.getAge(id);
     }
 }
